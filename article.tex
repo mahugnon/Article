@@ -1,216 +1,219 @@
-%\documentclass[conference]{IEEEtran}
-\documentclass[10pt,conference]{IEEEtran}
-\IEEEoverridecommandlockouts
-% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
-\usepackage{cite}
-\usepackage{amsmath,amssymb,amsfonts}
-\usepackage{algorithmic}
-\usepackage{graphicx}
-\usepackage{textcomp}
-\usepackage{xcolor}
-\usepackage{url}
-\usepackage{listings}
-\usepackage{courier}
-\usepackage{xspace}
-\usepackage{multirow}
-\usepackage{colortbl}
-\usepackage{blindtext}
-
-%\newcommand{\sd}[1]{\textbf{"\textsc{SD:}} \textit{#1}"}
-
-\newcommand{\nnbb}[2]{
-    \fbox{\bfseries\sffamily\scriptsize#1}
-    {\sf\small$\blacktriangleright$\textit{#2}$\blacktriangleleft$}
-   }
-\newcommand{\sd}[1]{\nnbb{\textcolor{orange}{St\'{e}f}}{\textcolor{orange}{#1}\xspace}}
-\newcommand{\hr}[1]{\nnbb{Henrique}{#1\xspace}}
-\newcommand{\ap}[1]{\nnbb{\textcolor{blue}{Apierr}}{\textcolor{blue}{#1}\xspace}}
-\newcommand{\Miner}[0]{Miner\xspace}
-\newcommand{\Miners}[0]{Miners\xspace}
-\newcommand{\miner}[0]{miner\xspace}
-\newcommand{\miners}[0]{miners\xspace}
-\newcommand{\gas}[0]{gas\xspace}
-\newcommand{\Gas}[0]{Gas\xspace}
-\newcommand{\Transaction}[0]{Transaction\xspace}
-
-\newcommand{\SmartGas }[0]{\textsc{SmartGas}\xspace}
-
-\newcommand{\eg}{\emph{e.g.,}\xspace}
-\newcommand{\ie}{\emph{i.e.,}\xspace}
-\newcommand{\etal}{\emph{et al.,}\xspace}
-\newcommand{\ct}[1]{{\textsf{#1}}\xspace}
-\usepackage[scaled=0.85]{helvet}
-
-\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
-    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
-\begin{document}
-
-\title{Improving practices in a small french  company: first step}
-% \title{Toward  maintainance of  a commencial software: Time serie model of defects }
-%\thanks{Identify applicable funding agency here. If none, delete this.}}
-
-\author{\IEEEauthorblockN{HOUEKPETODJI Mahugnon Honore\IEEEauthorrefmark{1}\IEEEauthorrefmark{2},
-Nicolas Anquetil\IEEEauthorrefmark{3}}
-\IEEEauthorblockA{\IEEEauthorrefmark{1}University of Lille, France}
-\IEEEauthorblockA{\IEEEauthorrefmark{2}Inria Lille - Nord Europe, France}
-homahugnon@gmail.com, nicolas.anquetil@inria.fr}
-
-
-\maketitle
-
-\begin{abstract}
-Legacy systems are old software that style does useful tasks.
-In industrial software companies, legacy systems are often crucial for the company business model and represent a longterm business investment.
-Legacy systems are known to be hard to maintain.
-This is the case in a french company whose main product is twenty years old software written in PowerBuilder.
-Our longterm goal is to help reengineer.
-But how to validate our intervention?
-Using moving average, and regression, we evaluate the maintenance state of the system and produce a dashboard to monitor our future actions.
- In this paper, we present a lightweight defects model to help planning commercial software maintenance.
-\end{abstract}
-
-\begin{IEEEkeywords}
-Legacy system, software qulity model .
-\end{IEEEkeywords}
-
-\section{Introduction}
-%Software companies usually invest time and energy to improve the quality of the software they develop to respond to the rising market demands.
-Software companies, beacause of maket demand, develop features  in a hurry sometimes.
-As a result, they have little spare resources to allocate to software quality improvement and code defect removal.
-As the software grows,  it becomes harder and harder to maintain.
-%Rewriting this software require time and a lot of resources.
-At this point, one of the solutions is to re-engineer them. 
-This is the situation in CIM, a small French company, which main business product  is the studied system.
-
-The long period of growth and evolution of the systems, as well as staff changes, leads to the emergence of problems such as dead code, duplicate code, lack of testing, and obsolete documentation. 
-The developers at the origin of the application are no longer present, so a large part of the knowledge (and this at different levels of granularity) is dispersed and diffuse. 
-In other words, to evaluate the state of the system, we cannot completely rely on their knowledge of the system.
-The only usable information about the system is  its' source code and a database in which defects and evolution are registered.
- In this paper,  purpose is:
-\begin{itemize}
-\item How to provides a report on the state of the system to the entire company?
-\item How to monitor our reverse-engineering task?
-\end{itemize}
-We use defect model and analytics to overcome our problems.
- This paper is structured as follows: we start we related works in the section \ref{sec:related-work}, followed by  the section \ref{sec:defectModel}  in which we present our defect model. 
- In the section 4 we present our results and validation. We  conclude in section 5 
- 
-
-\section{Related Work}\label{sec:related-work}
-Research about software defect model for the reliable prediction of post-release defects in software is an ongoing and yet unresolved research topic. It was already discussed in multiple  publications \cite{Catal09,Hall2012, Hoss2017}. 
-Steffen Herbold \cite{Herb19} propose a cost model for software defect prediction
-These models aims to predict post-release defects but our model aims to fit  defects dataset  in order our reengineering on the studied system.   
-\section{Defect Model}\label{sec:defectModel}
-\subsection{Moving average}
-A moving average is a statistic technic usually used to smooth a time serie data. Let $ (t_1,y_1) , (t_2,y_2) , . . ., (t_n,y_n) $ a time serie  where
-\begin{equation*} SMA_{n}=\frac{1}{n}\sum\nolimits_{t=k-n+1}^{k}A_{t}\tag{1} \end{equation*}
-\subsection{Presentation of the studied system}
-In general, legacy systems have a lifespan of several decades, decisions made at the beginning of development and their evolution over the life of the software are often lost. 
-This is the case of the studied system  which has a life cycle of  more than 20 years. 
-It has 3 MLOC software written in Powerbuilder. With 117 Powerbuilder library, the  bigest library is  over 300 KLOC.
-The system is not versioned and old versions are lost until 2012.
-
-Powerbuilder is a programming language and integrated development environment initially developed by PowerSoft. The first version was published in 1992.
-A Powerbuilder application components are grouped by libraries.  
-A Powerbuilder library contains differents type of Objects: Datawindow, User object, Global function,  menu, etc. 
-Powerbuilder is not totally object-oriented, as inheritance and object-oriented features are limited to some object types (Windows, Userobjects and Menus). 
-Its version 2017 supports version control systems and the support is not stable. 
-    
-
-\subsection{Ticket}
-A ticket is related do a task to do. 
-This task can be fixing a defect, writing documentation, adding a new feature, etc. 
-A ticket is open for a task . 
-Once the task is done and validated, the ticket is close.
-A ticket has the following characteristics:
-\begin{itemize}
-\item the libraries it  is related to
-\item the creation date
-\item the closing date
-\item time spent by a developer
-\begin{itemize}
-\item time to analyze
-\item time to implement solution
-\item time to test
-\end{itemize}
-\item  the estimation of the time needed by the developer to work on the ticket
-\end{itemize}
-
-\section{Methodology}\label{sec:methodology}
-We collected data  from the company Tickets database .  
-Then we procced to data cleaning.
-The data analytics process is guided by the following research rule:
-\begin{itemize}
-\item Pose a problem
-\item Make experimentations on data
-\item Validation of results
-\end{itemize}
-\subsection{Data collection and data cleaning}
-The ticket database contains data from 1998  until 2019. 
-This data includes tickets  differents teams and softwares in  the company. 
-In the field related to the  library a ticket is related to,  the name of the library is not always well written. 
-
-The  data are consistent  from 2004 to 2019 . 
-We  remove all tickets, not related  to SPB and reformat durations per ticket.
-By inteviewing developers, we categorize tickets into two sets: tickets related to defects and tickets related to evolutions.
-
- \subsection{Questions}
- \begin{itemize}
- \item How to avoid the system souce code lost?
- \item What is the nomber of defect per library?
- \item How long on average, does it take to open and close a ticket?
- \item How long on average,  does a developer spend on a ticket ?
- \item How long on average, does a developer spend to test a ticket after development ?
- \item Does the team manager estimate well  the time needed by the developer?
- \item If the time estimated by the team manager is good, does the developer finish because  of time constraint?
- \end{itemize}
- 
- \subsection{Experimentations}
-For each problem, we experiement on the ticket database. 
-\subsubsection{Avoid the system souce code lost}
-The system source code is not versioned.  Some versions of the system are lost. 
-When developers work in the same version of the system, they chat with each other to notify which part of the system they are modifying so that others won't modify the same part to avoid losing modifications. Besides, each developer has to write in a comment in the source code his name and the date in the form of each modification he made.  We believe that writing author in a comment in the source can be easily handled by a version control system.
-This is because of Powerbuilder support version controlling system from the 2017 release. 
-The support provided by Powerbuilder is not stable.
-The conflict resolution option is limited and a simple copy-paste of a library require a huge walkaround to update files. 
-With this constraint, we chose to start with a simple to use version controlling system. We introduce Apache Subversion. 
- \subsubsection{Number of defects per library}
-We plot  defects and evolution per library over time.  In x axis we have years and in y axis  we have the number of defects  or evolutions.
-This give us an overview of defect  history per library. And  which libraries   trend to have defects.
-\subsubsection{ Average time to open and close a ticket}
-A ticket is closed when the task it is related to is done and validated. 
-We use the time a ticket remains open over the life cycle of the studied system as an indicator of the system state. 
-We grouped tickets by the month of creation.
-We then compute the average of  the duration between the time when the ticket is created and the time when the ticket is closed for each month.  
-We do this for tickets categorized as defect and tickets categorized as evolution. 
-We finally plot the result of each category into a graph.  First, the plot exhibits rapid up-and-down variation.
-We could not derive any trend from this variation. 
-We smooth the plot using the simple moving average of order 4 on the data.  
-We then plot the linear regression to fit the data.
-
-\subsubsection{Time developer spend on a ticket }
-When a developer work on the task assign to in a ticket, he spend time to analyse  the task. He then implement a solution and then test. The time spend analyzing and implementing the task assign in a ticket depend on the workload  of the ticket, the complexity of system, etc.  
-We compute the average time spent by developers per month. 
-The data also present rapid up-and-down variation, which we smooth with simple moving average of order 4. We use  linear regression to fit the data.   
-\subsubsection{Average time  to test a ticket after development}
-Generally, when a developer finishes a development related to a ticket, he tests his solution.  
-The testing time is recorded in the ticket database.
- We use this information to compute the average per month of testing time. 
- \subsubsection{Team Manager time estimation}
-For a ticket, the team manager estimates the time needed to finish the task related to the ticket.
-This estimation is based on the experience of the team manager.  
-We compare the time spent by the developer with the estimation per month over the life cycle of the system.  
-This is to assess if the developer has enough time to develop good quality source code.
- We smooth data related to the comparisons and plot it to see the trend over the system life cycle.
- \section{Results and Discussion}\label{sec:results-discussion}
-
-
-  
-\section{Summary and Conclusions}\label{sec:conclusion}
-
-%\bibliographystyle{IEEEtran}
-\bibliographystyle{alpha}
-\bibliography{rmod,others,new}
-
-\vspace{12pt}
-\end{document}
+	%\documentclass[conference]{IEEEtran}
+	\documentclass[10pt,conference]{IEEEtran}
+	\IEEEoverridecommandlockouts
+	% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+	\usepackage{cite}
+	\usepackage{amsmath,amssymb,amsfonts}
+	\usepackage{algorithmic}
+	\usepackage{graphicx}
+	\usepackage{textcomp}
+	\usepackage{xcolor}
+	\usepackage{url}
+	\usepackage{listings}
+	\usepackage{courier}
+	\usepackage{xspace}
+	\usepackage{multirow}
+	\usepackage{colortbl}
+	\usepackage{blindtext}
+	
+	%\newcommand{\sd}[1]{\textbf{"\textsc{SD:}} \textit{#1}"}
+	
+	\newcommand{\nnbb}[2]{
+	    \fbox{\bfseries\sffamily\scriptsize#1}
+	    {\sf\small$\blacktriangleright$\textit{#2}$\blacktriangleleft$}
+	   }
+	\newcommand{\sd}[1]{\nnbb{\textcolor{orange}{St\'{e}f}}{\textcolor{orange}{#1}\xspace}}
+	\newcommand{\hr}[1]{\nnbb{Henrique}{#1\xspace}}
+	\newcommand{\ap}[1]{\nnbb{\textcolor{blue}{Apierr}}{\textcolor{blue}{#1}\xspace}}
+	\newcommand{\Miner}[0]{Miner\xspace}
+	\newcommand{\Miners}[0]{Miners\xspace}
+	\newcommand{\miner}[0]{miner\xspace}
+	\newcommand{\miners}[0]{miners\xspace}
+	\newcommand{\gas}[0]{gas\xspace}
+	\newcommand{\Gas}[0]{Gas\xspace}
+	\newcommand{\Transaction}[0]{Transaction\xspace}
+	
+	\newcommand{\SmartGas }[0]{\textsc{SmartGas}\xspace}
+	
+	\newcommand{\eg}{\emph{e.g.,}\xspace}
+	\newcommand{\ie}{\emph{i.e.,}\xspace}
+	\newcommand{\etal}{\emph{et al.,}\xspace}
+	\newcommand{\ct}[1]{{\textsf{#1}}\xspace}
+	\usepackage[scaled=0.85]{helvet}
+	
+	\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+	    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+	\begin{document}
+	
+	\title{Improving practices in a small french  company: first step}
+	% \title{Toward  maintainance of  a commencial software: Time serie model of defects }
+	%\thanks{Identify applicable funding agency here. If none, delete this.}}
+	
+	\author{\IEEEauthorblockN{HOUEKPETODJI Mahugnon Honore\IEEEauthorrefmark{1}\IEEEauthorrefmark{2},
+	Nicolas Anquetil\IEEEauthorrefmark{3}}
+	\IEEEauthorblockA{\IEEEauthorrefmark{1}University of Lille, France}
+	\IEEEauthorblockA{\IEEEauthorrefmark{2}Inria Lille - Nord Europe, France}
+	homahugnon@gmail.com, nicolas.anquetil@inria.fr}
+	
+	
+	\maketitle
+	
+	\begin{abstract}
+	Legacy systems are old software that style does useful tasks.
+	In industrial software companies, legacy systems are often crucial for the company business model and represent a longterm business investment.
+	Legacy systems are known to be hard to maintain.
+	This is the case in a french company whose main product is twenty years old software written in PowerBuilder.
+	Our longterm goal is to help reengineer.
+	But how to validate our intervention?
+	Using moving average, and regression, we evaluate the maintenance state of the system and produce a dashboard to monitor our future actions.
+	 In this paper, we present a lightweight defects model to help planning commercial software maintenance.
+	\end{abstract}
+	
+	\begin{IEEEkeywords}
+	Legacy system, software qulity model .
+	\end{IEEEkeywords}
+	
+	\section{Introduction}
+	%Software companies usually invest time and energy to improve the quality of the software they develop to respond to the rising market demands.
+	Software companies, beacause of maket demand, develop features  in a hurry sometimes.
+	As a result, they have little spare resources to allocate to software quality improvement and code defect removal.
+	As the software grows,  it becomes harder and harder to maintain.
+	%Rewriting this software require time and a lot of resources.
+	At this point, one of the solutions is to re-engineer them. 
+	This is the situation in CIM, a small French company, which main business product  is the studied system.
+	
+	The long period of growth and evolution of the systems, as well as staff changes, leads to the emergence of problems such as dead code, duplicate code, lack of testing, and obsolete documentation. 
+	The developers at the origin of the application are no longer present, so a large part of the knowledge (and this at different levels of granularity) is dispersed and diffuse. 
+	In other words, to evaluate the state of the system, we cannot completely rely on their knowledge of the system.
+	The only usable information about the system is  its' source code and a database in which defects and evolution are registered.
+	 In this paper,  purpose is:
+	\begin{itemize}
+	\item How to provides a report on the state of the system to the entire company?
+	\item How to monitor our reverse-engineering task?
+	\end{itemize}
+	We use defect model and analytics to overcome our problems.
+	 This paper is structured as follows: we start we related works in the section \ref{sec:related-work}, followed by  the section \ref{sec:defectModel}  in which we present our defect model. 
+	 In the section 4 we present our results and validation. We  conclude in section 5 
+	 
+	
+	\section{Related Work}\label{sec:related-work}
+	Research about software defect model for the reliable prediction of post-release defects in software is an ongoing and yet unresolved research topic. It was already discussed in multiple  publications \cite{Catal09,Hall2012, Hoss2017}. 
+	Steffen Herbold \cite{Herb19} propose a cost model for software defect prediction
+	These models aims to predict post-release defects but our model aims to fit  defects dataset  in order our reengineering on the studied system.   
+	\section{Defect Model}\label{sec:defectModel}
+	\subsection{Moving average}
+	A moving average is a statistic technic usually used to smooth a time serie data and estimate it trend. The moving average of a period m is a series of consecutive averages of m terms at a time. The simple moving average is calculated as:
+	
+	\begin{equation}
+	SMA_{t+1}=\frac{\sum\limits_{i=t-m}^t X_i}{m}
+	\end{equation}
+	\subsection{Presentation of the studied system}
+	In general, legacy systems have a lifespan of several decades, decisions made at the beginning of development and their evolution over the life of the software are often lost. 
+	This is the case of the studied system  which has a life cycle of  more than 20 years. 
+	It has 3 MLOC software written in Powerbuilder. With 117 Powerbuilder library, the  bigest library is  over 300 KLOC.
+	The system is not versioned and old versions are lost until 2012.
+	
+	Powerbuilder is a programming language and integrated development environment initially developed by PowerSoft. The first version was published in 1992.
+	A Powerbuilder application components are grouped by libraries.  
+	A Powerbuilder library contains differents type of Objects: Datawindow, User object, Global function,  menu, etc. 
+	Powerbuilder is not totally object-oriented, as inheritance and object-oriented features are limited to some object types (Windows, Userobjects and Menus). 
+	Its version 2017 supports version control systems and the support is not stable. 
+	    
+	
+	\subsection{Ticket}
+	A ticket is related do a task to do. 
+	This task can be fixing a defect, writing documentation, adding a new feature, etc. 
+	A ticket is open for a task . 
+	Once the task is done and validated, the ticket is close.
+	A ticket has the following characteristics:
+	\begin{itemize}
+	\item the libraries it  is related to
+	\item the creation date
+	\item the closing date
+	\item time spent by a developer
+	\begin{itemize}
+	\item time to analyze
+	\item time to implement solution
+	\item time to test
+	\end{itemize}
+	\item  the estimation of the time needed by the developer to work on the ticket
+	\end{itemize}
+	
+	\section{Methodology}\label{sec:methodology}
+	We collected data  from the company Tickets database .  
+	Then we procced to data cleaning.
+	The data analytics process is guided by the following research rule:
+	\begin{itemize}
+	\item Pose a problem
+	\item Make experimentations on data
+	\item Validation of results
+	\end{itemize}
+	\subsection{Data collection and data cleaning}
+	The ticket database contains data from 1998  until 2019. 
+	This data includes tickets  differents teams and softwares in  the company. 
+	In the field related to the  library a ticket is related to,  the name of the library is not always well written. 
+	
+	The  data are consistent  from 2004 to 2019 . 
+	We  remove all tickets, not related  to SPB and reformat durations per ticket.
+	By inteviewing developers, we categorize tickets into two sets: tickets related to defects and tickets related to evolutions.
+	
+	 \subsection{Questions}
+	 \begin{itemize}
+	 \item How to avoid the system souce code lost?
+	 \item What is the nomber of defect per library?
+	 \item How long on average, does it take to open and close a ticket?
+	 \item How long on average,  does a developer spend on a ticket ?
+	 \item How long on average, does a developer spend to test a ticket after development ?
+	 \item Does the team manager estimate well  the time needed by the developer?
+	 \item If the time estimated by the team manager is good, does the developer finish because  of time constraint?
+	 \end{itemize}
+	 
+	 \subsection{Experimentations}
+	For each problem, we experiement on the ticket database. 
+	\subsubsection{Avoid the system souce code lost}
+	The system source code is not versioned.  Some versions of the system are lost. 
+	When developers work in the same version of the system, they chat with each other to notify which part of the system they are modifying so that others won't modify the same part to avoid losing modifications. Besides, each developer has to write in a comment in the source code his name and the date in the form of each modification he made.  We believe that writing author in a comment in the source can be easily handled by a version control system.
+	This is because of Powerbuilder support version controlling system from the 2017 release. 
+	The support provided by Powerbuilder is not stable.
+	The conflict resolution option is limited and a simple copy-paste of a library require a huge walkaround to update files. 
+	With this constraint, we chose to start with a simple to use version controlling system. We introduce Apache Subversion. 
+	 \subsubsection{Number of defects per library}
+	We plot  defects and evolution per library over time.  In x axis we have years and in y axis  we have the number of defects  or evolutions.
+	This give us an overview of defect  history per library. And  which libraries   trend to have defects.
+	\subsubsection{ Average time to open and close a ticket}
+	A ticket is closed when the task it is related to is done and validated. 
+	We use the time a ticket remains open over the life cycle of the studied system as an indicator of the system state. 
+	We grouped tickets by the month of creation.
+	We then compute the average of  the duration between the time when the ticket is created and the time when the ticket is closed for each month.  
+	We do this for tickets categorized as defect and tickets categorized as evolution. 
+	We finally plot the result of each category into a graph.  First, the plot exhibits rapid up-and-down variation.
+	We could not derive any trend from this variation. 
+	We smooth the plot using the simple moving average of period 4 on the data.  
+	We then plot the linear regression to fit the data. 
+	
+	\subsubsection{Time developer spend on a ticket }
+	When a developer work on the task assign to in a ticket, he spend time to analyse  the task. He then implement a solution and then test. The time spend analyzing and implementing the task assign in a ticket depend on the workload  of the ticket, the complexity of system, etc.  
+	We compute the average time spent by developers per month. 
+	The data also present rapid up-and-down variation, which we smooth with simple moving average of period 4. We use  linear regression to fit the data.   
+	\subsubsection{Average time  to test a ticket after development}
+	Generally, when a developer finishes a development related to a ticket, he tests his solution.  
+	The testing time is recorded in the ticket database.
+	 We use this information to compute the average per month of testing time. 
+	 \subsubsection{Team Manager time estimation}
+	For a ticket, the team manager estimates the time needed to finish the task related to the ticket.
+	This estimation is based on the experience of the team manager.  
+	We compare the time spent by the developer with the estimation per month over the life cycle of the system.  
+	This is to assess if the developer has enough time to develop good quality source code.
+	 We smooth data related to the comparisons and plot it to see the trend over the system life cycle.
+	 \section{Results and Discussion}\label{sec:results-discussion}
+	
+	
+	  
+	\section{Summary and Conclusions}\label{sec:conclusion}
+	
+	%\bibliographystyle{IEEEtran}
+	\bibliographystyle{alpha}
+	\bibliography{rmod,others,new}
+	
+	\vspace{12pt}
+	\end{document}
