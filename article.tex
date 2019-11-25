@@ -113,24 +113,22 @@ This paper presents the results of this work.
 \section{Related Work}
 %-------------------------------------------------------------------------------
 \label{sec:related-work}
-
-"intro": de quoi on va parler et pourquoi en parler ?
+Recently, research on mining software repositories has received much attention as it has attempted to  understand  software  evolution \cite{Zhan10a}. Software defect history and source code history are often used to monitor software maintenance or predict the number of defect in a system. 
+For instance, software defect prediction using software repositories, has already been extensively discussed in literature in numerous publications.
+This literature is summarised in many literature surveys: \cite{Catal09,Hall12,Hoss17,Li19a,malh15}.
+%"intro": de quoi on va parler et pourquoi en parler ?
 
 %A software defect is a mistake at coding level, which manifests in a deviation from expected behavior. 
 %Mining a software defect history helps to collect valuable information about the software life evolution. 
-Software re-engineering monitoring should be supported by prediction models that predict the quality under control (\cite{Lenar17}). 
+%Software re-engineering monitoring should be supported by prediction models that predict the quality under control (\cite{Lenar17}). 
 
 %Software defect history can be used alone to build a software defect model using statistical techniques or machine learning algorithms to predict post-release defects in software.
+ \cite{gill91} used McCabe’s cyclomatic complexity metric divided by the size of the system to predict software maintenance productivity.
+Dan Port and Bill Taber \cite{port18,Zhan10a} used software defect history and source code history to assess a system evolution for maintenance monitoring. 
 
-Software defect prediction has already been extensively discussed in literature in numerous publications.
-This literature is summarised in many literature surveys: \cite{Catal09,Hall12,Hoss17,Li19a,malh15}.
-
-Software defect history combined with static source code metrics and or developers metric to monitor maintenance quality.
-For example \cite{gill91} used McCabe’s cyclomatic complexity metric divided by the size of the system to predict software maintenance productivity.
-Dan Port and Bill Taber \cite{port18} use the number of  bugs difference between release, reported bugs per logical lines of code, number of day between releases, the system size change between release, the size change per day, the time spent  per bugs, test per logical line of code, comment per logical line of code to evaluate software development policy  to monitor maintenance quality of a software at Jet propulsion Laboratory.
-
-"conclusion": (1) on ne veut pas faire de prediction (2) on n'a pas d'historique de code
-donc: on develop notre propre analyse sur la ticket db.
+In this paper, we are interested to evaluate the system to monitor the re-engineering of the system. But we do not have the source code historical data. Thus, we cannot use the methods presented in above-mentionned literature. We develop a lightweight technique to analyse the ticket database .
+%"conclusion": (1) on ne veut pas faire de prediction (2) on n'a pas d'historique de code
+%donc: on develop notre propre analyse sur la ticket db.
 
 \section{Defect Model}
 %-------------------------------------------------------------------------------
