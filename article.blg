@@ -4,44 +4,44 @@ The top-level auxiliary file: article.aux
 The style file: plainnat.bst
 Database file #1: rmod.bib
 Database file #2: new.bib
-You've used 11 entries,
+You've used 10 entries,
             2773 wiz_defined-function locations,
-            687 strings with 7461 characters,
-and the built_in function-call counts, 6170 in all, are:
-= -- 579
-> -- 336
-< -- 10
-+ -- 112
-- -- 101
-* -- 495
-:= -- 917
-add.period$ -- 47
-call.type$ -- 11
-change.case$ -- 66
-chr.to.int$ -- 11
-cite$ -- 22
-duplicate$ -- 284
-empty$ -- 493
-format.name$ -- 120
-if$ -- 1340
+            680 strings with 7164 characters,
+and the built_in function-call counts, 5434 in all, are:
+= -- 510
+> -- 288
+< -- 9
++ -- 96
+- -- 86
+* -- 436
+:= -- 813
+add.period$ -- 43
+call.type$ -- 10
+change.case$ -- 58
+chr.to.int$ -- 10
+cite$ -- 20
+duplicate$ -- 251
+empty$ -- 439
+format.name$ -- 104
+if$ -- 1176
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 11
-newline$ -- 74
-num.names$ -- 46
-pop$ -- 128
+missing$ -- 10
+newline$ -- 69
+num.names$ -- 42
+pop$ -- 109
 preamble$ -- 1
-purify$ -- 55
+purify$ -- 48
 quote$ -- 0
-skip$ -- 227
+skip$ -- 199
 stack$ -- 0
-substring$ -- 268
-swap$ -- 61
-text.length$ -- 5
+substring$ -- 234
+swap$ -- 50
+text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 121
+type$ -- 110
 warning$ -- 0
-while$ -- 53
+while$ -- 47
 width$ -- 0
-write$ -- 174
+write$ -- 160

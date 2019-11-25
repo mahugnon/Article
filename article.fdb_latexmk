@@ -1,15 +1,15 @@
 # Fdb version 3
-["bibtex article"] 1574671548 "article.aux" "article.bbl" "article" 1574671550
+["bibtex article"] 1574672117 "article.aux" "article.bbl" "article" 1574672174
   "/usr/local/texlive/2018/texmf-dist/bibtex/bst/natbib/plainnat.bst" 1480098435 26816 ffe5423d2019860bad9f54bc402fac15 ""
-  "article.aux" 1574671550 4908 de7c34ec6a96348b304cf650c2c6f27a ""
+  "article.aux" 1574672118 4792 35447665c4efd7ff49c09bef4482d7b0 ""
   "new.bib" 1574671445 8245 969112a48bbffcd794a69e8fbdd6c204 ""
   "rmod.bib" 1574671445 751042 d5bc0d80f9b58f0ad0255c6a15ab6856 ""
   (generated)
-  "article.bbl"
   "article.blg"
-["pdflatex"] 1574671549 "/Users/honore/Documents/Article/article.tex" "/Users/honore/Documents/Article/article.pdf" "article" 1574671550
-  "/Users/honore/Documents/Article/article.aux" 1574671550 4908 de7c34ec6a96348b304cf650c2c6f27a ""
-  "/Users/honore/Documents/Article/article.tex" 1574671445 17074 ecd62ab6de56658156db008893fd66e4 ""
+  "article.bbl"
+["pdflatex"] 1574672117 "/Users/honore/Documents/Article/article.tex" "/Users/honore/Documents/Article/article.pdf" "article" 1574672174
+  "/Users/honore/Documents/Article/article.aux" 1574672118 4792 35447665c4efd7ff49c09bef4482d7b0 ""
+  "/Users/honore/Documents/Article/article.tex" 1574672113 17075 7bde5940f6e8d5767ab62908c3b32369 ""
   "/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/base/8r.enc" 1480098666 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2018/texmf-dist/fonts/map/fontname/texfonts.map" 1511824771 3332 103109f5612ad95229751940c61aada0 ""
   "/usr/local/texlive/2018/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm" 1480098689 2172 fd0c924230362ff848a33632ed45dc23 ""
@@ -113,9 +113,9 @@
   "/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1523934492 2717033 f61a5287d9c22a39a74f1979fe3f905c ""
   "/usr/local/texlive/2018/texmf-var/web2c/pdftex/pdflatex.fmt" 1523934516 4220280 10cab8fbd7c5a7c52aba9917e190d018 ""
   "/usr/local/texlive/2018/texmf.cnf" 1523934483 577 0b39adfd7c93507ff20c9c14c2f1a33f ""
-  "article.aux" 1574671550 4908 de7c34ec6a96348b304cf650c2c6f27a ""
-  "article.bbl" 1574671549 4290 e965f42d0357a00f81c0553af5e19ca0 "bibtex article"
-  "article.tex" 1574671445 17074 ecd62ab6de56658156db008893fd66e4 ""
+  "article.aux" 1574672118 4792 35447665c4efd7ff49c09bef4482d7b0 ""
+  "article.bbl" 1574672117 3874 95a41f83ab53abc3f3e305ea39ff76a9 "bibtex article"
+  "article.tex" 1574672113 17075 7bde5940f6e8d5767ab62908c3b32369 ""
   "images/devDefect.png" 1574600158 87808 b0064ea250af2349f157675b8d64d988 ""
   "images/devEvol.png" 1574600158 84679 37af04e74f90b32720e1c6df73ca26d1 ""
   "images/estimateBug.png" 1574600158 34339 a6ec844a2a53cc983da4d68ba5d931fe ""
@@ -125,8 +125,8 @@
   "images/openCloseEvol.png" 1574600160 91566 2a86c7b5c96ff39e850d15c1b8efb2e0 ""
   "images/timeDevTest.png" 1574600160 38570 b4696ffdaa13a324fd11cf06c6c46a00 ""
   (generated)
-  "/Users/honore/Documents/Article/article.log"
-  "article.pdf"
   "article.log"
   "article.aux"
+  "/Users/honore/Documents/Article/article.log"
+  "article.pdf"
   "/Users/honore/Documents/Article/article.pdf"
