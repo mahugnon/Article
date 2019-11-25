@@ -1,0 +1,96 @@
+\begin{thebibliography}{11}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Bibi et~al.(2006)Bibi, Tsoumakas, Stamelos, and Vlahavas]{bibi06}
+Stamatia Bibi, Grigorios Tsoumakas, Ioannis Stamelos, and Ioannis~P Vlahavas.
+\newblock Software defect prediction using regression via classification.
+\newblock In \emph{AICCSA}, pages 330--336, 2006.
+
+\bibitem[Catal and Diri(2009)]{Catal09}
+Cagatay Catal and Banu Diri.
+\newblock A systematic review of software fault prediction studies.
+\newblock \emph{Expert Syst. Appl.}, 36\penalty0 (4):\penalty0 7346--7354, May
+  2009.
+\newblock ISSN 0957-4174.
+\newblock \doi{10.1016/j.eswa.2008.10.027}.
+\newblock URL \url{http://dx.doi.org/10.1016/j.eswa.2008.10.027}.
+
+\bibitem[Gill and Kemerer(1991)]{gill91}
+Geoffrey~K Gill and Chris~F Kemerer.
+\newblock Cyclomatic complexity density and software maintenance productivity.
+\newblock \emph{IEEE transactions on software engineering}, 17\penalty0
+  (12):\penalty0 1284, 1991.
+
+\bibitem[Hall et~al.(2011)Hall, Beecham, Bowes, Gray, and Counsell]{Hall12}
+Tracy Hall, Sarah Beecham, David Bowes, David Gray, and Steve Counsell.
+\newblock A systematic literature review on fault prediction performance in
+  software engineering.
+\newblock \emph{IEEE Transactions on Software Engineering}, 38\penalty0
+  (6):\penalty0 1276--1304, 2011.
+
+\bibitem[Hosseini et~al.(2017)Hosseini, Turhan, and Gunarathna]{Hoss17}
+Rebvar Hosseini, Burak Turhan, and Dimuthu Gunarathna.
+\newblock A systematic literature review and meta-analysis on cross project
+  defect prediction.
+\newblock \emph{IEEE Transactions on Software Engineering}, PP:\penalty0 1--1,
+  11 2017.
+\newblock \doi{10.1109/TSE.2017.2770124}.
+
+\bibitem[Lenarduzzi et~al.(2017)Lenarduzzi, Stan, Taibi, Tosi, and
+  Venters]{Lenar17}
+Valentina Lenarduzzi, Alexandru~Cristian Stan, Davide Taibi, Davide Tosi, and
+  Gustavs Venters.
+\newblock A dynamical quality model to continuously monitor software
+  maintenance.
+\newblock In \emph{The European Conference on Information Systems Management},
+  pages 168--178. Academic Conferences International Limited, 2017.
+
+\bibitem[Li et~al.(2019)Li, Shepperd, and Guo]{Li19a}
+Ning Li, Martin Shepperd, and Yuchen Guo.
+\newblock A systematic review of unsupervised learning techniques for software
+  defect prediction.
+\newblock \emph{arXiv preprint arXiv:1907.12027}, 2019.
+
+\bibitem[Malhotra(2015)]{malh15}
+Ruchika Malhotra.
+\newblock A systematic review of machine learning techniques for software fault
+  prediction.
+\newblock \emph{Applied Soft Computing}, 27:\penalty0 504 -- 518, 2015.
+\newblock ISSN 1568-4946.
+\newblock \doi{https://doi.org/10.1016/j.asoc.2014.11.023}.
+\newblock URL
+  \url{http://www.sciencedirect.com/science/article/pii/S1568494614005857}.
+
+\bibitem[Molugaram and Rao(2017)]{MOLU17}
+Kumar Molugaram and G.~Shanker Rao.
+\newblock Chapter 12 - analysis of time series.
+\newblock In Kumar Molugaram and G.~Shanker Rao, editors, \emph{Statistical
+  Techniques for Transportation Engineering}, pages 463 -- 489.
+  Butterworth-Heinemann, 2017.
+\newblock ISBN 978-0-12-811555-8.
+\newblock \doi{https://doi.org/10.1016/B978-0-12-811555-8.00012-X}.
+\newblock URL
+  \url{http://www.sciencedirect.com/science/article/pii/B978012811555800012X}.
+
+\bibitem[Port and Taber(2018)]{port18}
+Dan Port and Bill Taber.
+\newblock An empirical study of process policies and metrics to manage
+  productivity and quality for maintenance of critical software systems at the
+  jet propulsion laboratory.
+\newblock In \emph{Proceedings of the 12th ACM/IEEE International Symposium on
+  Empirical Software Engineering and Measurement}, page~37. ACM, 2018.
+
+\bibitem[{Tantithamthavorn} et~al.(2016){Tantithamthavorn}, {McIntosh},
+  {Hassan}, and {Matsumoto}]{Tanti16}
+C.~{Tantithamthavorn}, S.~{McIntosh}, A.~E. {Hassan}, and K.~{Matsumoto}.
+\newblock Automated parameter optimization of classification techniques for
+  defect prediction models.
+\newblock In \emph{2016 IEEE/ACM 38th International Conference on Software
+  Engineering (ICSE)}, pages 321--332, May 2016.
+\newblock \doi{10.1145/2884781.2884857}.
+
+\end{thebibliography}
