@@ -65,10 +65,12 @@ Legacy systems are old software that still does useful tasks.
 In industrial software companies, legacy systems are often crucial for the company business model and represent a long-term business investment.
 Legacy systems are known to be hard to maintain.
 This is the case in a french company whose main product is twenty years old software written in PowerBuilder.
-Our long-term goal is to help re-engineer.
+Our long-term goal is to help it re-engineer this system.
 But how to validate our intervention?
-Using moving average, and regression, we evaluate the maintenance state of the system and produce a dashboard to monitor our future actions.
- In this paper, we present a lightweight defects model to help planning commercial software maintenance.
+Little data is available on the system and specifically, past versions of the source code are not easy to recover.
+This constrained us on the metrics we could use.
+%We evaluate the maintenance state of the system and produce a dashboard to monitor our future actions.
+In this paper, we present a lightweight model to characterize the situation of the system and allow us to monitor it in the future.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -76,40 +78,67 @@ Legacy system, software quality model .
 \end{IEEEkeywords}
 
 \section{Introduction}
+%-------------------------------------------------------------------------------
+
 %Software companies usually invest time and energy to improve the quality of the software they develop to respond to the rising market demands.
-Software companies, because of market demand, develop features  in a hurry .
-As a result, they have little spare resources to allocate to software quality improvement and code defect removal.
-As the software grows,  it becomes harder and harder to maintain.
+Software companies have little spare resources to allocate to software quality improvement or code defect removal.
+As a result they often develop features in a hurry.
+As the system grows, it becomes harder and harder to maintain.
 %Rewriting this software require time and a lot of resources.
-At this point, one of the solutions is to re-engineer it. 
-This is the situation at CIM, a medium French company, which main business product  is the studied system.
+To ensure the future of the system, and through it, of the company itself, some re-engineering actions might be necessary.
+Long period of growth and evolution of the systems as well as staff evolution, lead to problems such as dead code, duplicate code, and obsolete documentation. 
+The developers at the origin of the application are no longer present, so a large part of the knowledge (and this at different levels of granularity) is scattered or lost. 
 
-The long period of growth and evolution of the systems, as well as staff changes, leads to the emergence of problems such as dead code, duplicate code, and obsolete documentation. 
-The developers at the origin of the application are no longer present, so a large part of the knowledge (and this at different levels of granularity) is dispersed and diffuse. 
-In other words, we cannot completely rely on current developers knowledge of the system.
-The only usable information about the system is  its non versioned source code and a database in which defects and evolution are registered.
- In this paper, we are trying to answer to the following questions:
-\begin{itemize}
-\item How to provides a report on the state of the system to the entire company?
-\item How to monitor our reverse-engineering task?
-\end{itemize}
-We use defect model and analytic to overcome our problems.
- This paper is structured as follows: we start with related works in the section \ref{sec:related-work}, followed by  the section \ref{sec:defectModel}  in which we present our defect model. 
- In the section 4 we present our results and validation. We  conclude in section 5 
+This is the situation at CIM, a medium French company, which main business product we are studying.
+The system is written in an old language (PowerBuilder) typically unknown to young programmers which translates in a difficulty to hire new developpers.
+There is also a sense in the development team that the system suffers from architecture erosion and is difficult to maintain or evolve which translates into a steep learning curve for new developpers.
+We are trying to help this company improve its software engineering practices and restructure the system to improve the situation.
+
+In this paper, we are trying to answer the following question:
+How to validate our intervention and can we measure its concrete impact on the system and its evolution?
+
+%How to provides a report on the state of the system to the entire company?
+For the reasons explained above, we cannot completely rely on current developers knowledge of the system.
+The only usable information about the system is its non versioned source code and a ticket database.
+Past literature often relied on historical data on the source code, for example
+cyclomatic complexity \cite{gill91}, or number of lines of code \cite{port18}.
+In lack of a reliable software versonning system, we could not use these solutions.
+
+We mine and analyse the ticket database to overcome our problem.
+This paper presents the results of this work.
+
+ This paper is structured as follows: we start with related work in the section \ref{sec:related-work}, followed by  the section \ref{sec:defectModel}  in which we present ticket database mining background. 
+ In the section 4 we present our results and validation. We  conclude in section 5.
  
-\section{Related Work}\label{sec:related-work}
-A software defect is a mistake at coding level, which manifests in a deviation from expected behavior . Mining a software defect history help to collect valuable information about the software life evolution. 
-%Software re-engineering monitoring should be supported by prediction models that predict the quality under control (\cite{Lenar17}). 
-%Je sais que je ne fais pas de la prediction. Mais le moving average c'est un model de prediction lui meme.
-In the literature, software defect history combined with static source code metrics and or developers metric to monitor maintenance quality.
+\section{Related Work}
+%-------------------------------------------------------------------------------
+\label{sec:related-work}
 
-Software defect history can be used alone to build a software defect model using statistical techniques or machine learning algorithms to predict post-release defects in software. This approach was already discussed in multiple  publications \cite{Catal09, Hall12, Hoss17, Li19a, malh15,bibi06, Tanti16}.
+"intro": de quoi on va parler et pourquoi en parler ?
 
-\cite{gill91} used McCabe’s cyclomatic complexity metric divided by the size of the system to predict software maintenance productivity.
+%A software defect is a mistake at coding level, which manifests in a deviation from expected behavior. 
+%Mining a software defect history helps to collect valuable information about the software life evolution. 
+Software re-engineering monitoring should be supported by prediction models that predict the quality under control (\cite{Lenar17}). 
+
+%Software defect history can be used alone to build a software defect model using statistical techniques or machine learning algorithms to predict post-release defects in software.
+
+Software defect prediction has already been extensively discussed in literature in numerous publications.
+This literature is summarised in many literature surveys: \cite{Catal09,Hall12,Hoss17,Li19a,malh15}.
+
+Software defect history combined with static source code metrics and or developers metric to monitor maintenance quality.
+For example \cite{gill91} used McCabe’s cyclomatic complexity metric divided by the size of the system to predict software maintenance productivity.
 Dan Port and Bill Taber \cite{port18} use the number of  bugs difference between release, reported bugs per logical lines of code, number of day between releases, the system size change between release, the size change per day, the time spent  per bugs, test per logical line of code, comment per logical line of code to evaluate software development policy  to monitor maintenance quality of a software at Jet propulsion Laboratory.
 
-\section{Defect Model}\label{sec:defectModel}
+"conclusion": (1) on ne veut pas faire de prediction (2) on n'a pas d'historique de code
+donc: on develop notre propre analyse sur la ticket db.
+
+\section{Defect Model}
+%-------------------------------------------------------------------------------
+\label{sec:defectModel}
+
 \subsection{Moving average}
+%-------------------------------------------------------------------------------
+
 A moving average is a statistic technical usually used to smooth a time series data and estimate it trend \cite{MOLU17}.
  The moving average of a period m is a series of consecutive averages of m terms at a time. 
  The simple moving average is calculated as:
@@ -117,7 +146,9 @@ A moving average is a statistic technical usually used to smooth a time series d
 \begin{equation}
 SMA_{t+1}=\frac{\sum\limits_{i=t-m}^t X_i}{m}
 \end{equation}
+
 \subsection{Presentation of the studied system}
+%-------------------------------------------------------------------------------
 Legacy systems have a lifespan of several decades, decisions made at the beginning of development and their evolution over the life of the software are often lost. 
 This is the case of the studied system  which has more than 20 years. 
 It's a 3 MLOC software written in Powerbuilder. With 117 Powerbuilder library, the  bigest library is  over 300 KLOC.
@@ -131,25 +162,32 @@ Its version 2017 supports version control systems.% and the support is not stabl
     
 
 \subsection{Ticket}
+%-------------------------------------------------------------------------------
+
 A ticket is related do a task to do. 
 This task can be fixing a defect, writing documentation, adding a new feature, etc. 
 A ticket is open for a task . 
 Once the task is done and validated, the ticket is close.
 A ticket has the following characteristics:
+
 \begin{itemize}
 \item the libraries it  is related to
 \item the creation date
 \item the closing date
 \item time spent by a developer
-\begin{itemize}
+  \begin{itemize}
 \item time to analyze
 \item time to implement solution
 \item time to test
-\end{itemize}
+  \end{itemize}
 \item  the estimation of the time needed by the developer to work on the ticket
 \end{itemize}
 In this paper we use defect history  from tickets database to build a simple defect model that evaluate developers effort.
-\section{Methodology}\label{sec:methodology}
+
+\section{Methodology}
+%-------------------------------------------------------------------------------
+\label{sec:methodology}
+
 We collected data  from the company Tickets database .  
 Then we proceed to data cleaning.
 The data analytic process is guided by the following research methodology:
@@ -158,7 +196,10 @@ The data analytic process is guided by the following research methodology:
 \item Make experimentation on data
 \item Validation of results
 \end{itemize}
+
 \subsection{Data collection and data cleaning}
+%-------------------------------------------------------------------------------
+
 The ticket database contains data from 1998  until 2019. 
 This data includes tickets  different teams and software in  the company. 
 In the field related to the  library a ticket is related to,  the name of the library is not always well written. 
@@ -181,16 +222,24 @@ By interviewing developers, we categorize tickets into two sets: tickets related
  \subsection{Experimentation}
 
 \subsubsection{Avoid the system source code lost}
+%-------------------------------------------------------------------------------
+
 The system source code is not versioned.  Some versions of the system are lost. 
 When developers work in the same version of the system, they chat with each other to notify which part of the system they are modifying so that others won't modify the same part to avoid losing modifications. Besides, each developer has to write in a comment in the source code his name and the date in the form of each modification he made.  We believe that writing author in a comment in the source can be easily handled by a version control system.
 This is because of Powerbuilder support version controlling system from the 2017 release. 
 The support provided by Powerbuilder is not stable.
 The conflict resolution option is limited and a simple copy-paste of a library require a huge walk-around to update files. 
 With this constraint, we chose to start with a simple to use version controlling system. We introduce Apache Subversion. 
+
  \subsubsection{Number of defects per library}
+ %-------------------------------------------------------------------------------
+
 We plot  defects and evolution per library over time.  In x axis we have years and in y axis  we have the number of defects  or evolution.
 This give us an overview of defect  history per library. And  which libraries   trend to have defects.
+
 \subsubsection{ Average time to open and close a ticket}
+%-------------------------------------------------------------------------------
+
 A ticket is closed when the task it is related to is done and validated. 
 We use the time a ticket remains open over the life cycle of the studied system as an indicator of the system state. 
 We grouped tickets by the month of creation.
@@ -201,16 +250,17 @@ We could not derive any trend from this variation.
 We smooth the plot using the simple moving average of period 4 on the data.  
 We then plot the linear regression to fit the data.  
 The figure \ref{fig:evol} presents the trend of time to close evolution ticket and  the figure \ref{fig:defect} shows  the trends  of time to close defects tickets.
+
 \begin{figure}[H]
   \centering
-  \includegraphics[width=50mm]{./images/openCloseEvol.png}
+  \includegraphics[width=70mm]{./images/openCloseEvol.png}
   \caption{Time to close evolution tickets}
   \label{fig:evol}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=50mm]{./images/openCloseBug.png}
+  \includegraphics[width=70mm]{./images/openCloseBug.png}
   \caption{Time to close defects tickets}
   \label{fig:defect}
 \end{figure}
@@ -219,6 +269,8 @@ The figure \ref{fig:evol} presents the trend of time to close evolution ticket a
 
 
 \subsubsection{Time developer spend on a ticket }
+%-------------------------------------------------------------------------------
+
 When a developer work on the task assign to in a ticket, he spend time to analyse  the task. 
 He then implement a solution and then test.
  The time spend analyzing and implementing the task assign in a ticket depend on the workload  of the ticket, the complexity of system, etc.  
@@ -238,27 +290,36 @@ The data also present rapid up-and-down variation, which we smooth with simple m
   \caption{Time spent by a developer to implement solution for  evolution tickets}
   \label{fig:devTimeEvol}
 \end{figure}
+
 \subsubsection{Average time  to test a ticket after development}
+%-------------------------------------------------------------------------------
+
 Generally, when a developer finishes a development related to a ticket, he tests his solution.  
 The testing time is recorded in the ticket database.
  We use this information to compute the average per month of testing time. 
+
  \begin{figure}[H]
   \centering
-  \includegraphics[width=50mm]{./images/timeDevTest.png}
+  \includegraphics[width=70mm]{./images/timeDevTest.png}
   \caption{Time spent by a developer to test his solution for  defect tickets}
   \label{fig:devTimeTestBug}
 \end{figure}
+
 \begin{figure}[H]
   \centering
-  \includegraphics[width=50mm]{./images/evolutionTest.png}
+  \includegraphics[width=70mm]{./images/evolutionTest.png}
   \caption{Time spent by a developer to test his solution for  evolution tickets}
   \label{fig:devTimeTestEvol}
 \end{figure}
+
  \subsubsection{Team Manager time estimation}
+ %-------------------------------------------------------------------------------
+
 For a ticket, the team manager estimates the time needed to finish the task related to the ticket.
 This estimation is based on the experience of the team manager.  
 We compare the time spent by the developer with the estimation per month over the life cycle of the system.  
 This is to assess if the developer has enough time to develop good quality source code.
+
 \begin{figure}[H]
   \centering
   \includegraphics[width=70mm]{./images/estimateBug.png}
@@ -274,7 +335,11 @@ This is to assess if the developer has enough time to develop good quality sourc
     The xAxis represent months from 2004 to 2019}
   \label{fig:devEstEvol}
 \end{figure}
-\section{Results and Discussion}\label{sec:results-discussion}
+
+\section{Results and Discussion}
+%-------------------------------------------------------------------------------
+\label{sec:results-discussion}
+
 \begin{itemize}
     \item Developers are now using subversion to integrate all their changes in the system. 
     \item From 2004 to 2019, as we can see in figure \ref{fig:evol} and figure \ref{fig:defect} ,  the time to close a ticket is 5 times the time at 2004 for defects and 1.5 times for evolution.
@@ -283,7 +348,10 @@ This is to assess if the developer has enough time to develop good quality sourc
     \item The time estimated by the developers team manager trend to be enough for the developer from 2013 for defects tickets and evolutions tickets.
 \end{itemize}
 
-\section{Summary and Conclusions}\label{sec:conclusion}
+\section{Summary and Conclusions}
+%-------------------------------------------------------------------------------
+\label{sec:conclusion}
+
 In this paper we present our first step in  improving practices in a french company. We first introduce subversion, a version control system.
 The developers team is now using it and the software studied source code is now versioned.
 This open the door for further analysis of the code repository to understand the system evolution. 
