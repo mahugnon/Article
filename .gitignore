@@ -5,4 +5,7 @@
 *.synctex.*
 *.sty
 *.cls
-
+*.blg
+*.fdb_latexmk
+*.fls
+*.bbl
