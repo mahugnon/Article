@@ -279,17 +279,17 @@ Finally to get a better notion of the trend, we will also plot the linear regres
 %-------------------------------------------------------------------------------
 
 The introduction of SVN only started one month ago and we do not have yet significant results to report here.
-%problem d'integration avec SVN
 
-%a travailler
-For the reconstruction of the summarized source history, ....
+For the reconstruction of the summarized source history, we already imported major versions until 2015 in a separated repository. 
+ %We then grouped them by major release. 
+ %We create an SVN repository in which we create a branch for each major release. We are pushing each release in the branch  of the major release it belong to.     
 
 \subsubsection{Data collection}
 %-------------------------------------------------------------------------------
 
 \begin{table}[htbp]
   \begin{center}
-    \caption{.....}
+    \caption{Ticket analysed}
     \label{tab:proportion}
     \begin{tabular}{| l | c |c|}
       \hline
@@ -309,7 +309,6 @@ This is an issue that we will investigate and monitor in the future.
 \subsubsection{Time to close a ticket}
 %-------------------------------------------------------------------------------
 
-% mettre a jour les donnees (29 mois !!!)
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=70mm]{./images/openCloseEvol.png} \\
@@ -338,22 +337,23 @@ He then implement a solution and then test.
 We compute the average time spent by developers per month. 
 The data also present rapid up-and-down variation, which we smooth with simple moving average of period 4. We use  linear regression to fit the data.   
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
+  \includegraphics[width=70mm]{./images/devEvol.png}\\
   \includegraphics[width=70mm]{./images/devDefect.png}
-  \caption{Time spent by a developer to implement solution for  defects tickets}
-  \label{fig:devTimeDefect}
-\end{figure}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=70mm]{./images/devEvol.png}
-  \caption{Time spent by a developer to implement solution for  evolution tickets}
-  \label{fig:devTimeEvol}
+  \caption{Time spent by a developer to implement his solution for  evolution (up) and defect (down) tickets}
+  \label{fig:devTimeDev}
 \end{figure}
 
 %ressemble a closing time
+Figure \ref{fig:devTimeDev} presents the trend of closing time for evolution (up) and defect (down) tickets.
+One can notice a large variation of ploted time spent by the developer, even after smoothing it with the moving average.
 
+It takes longer (on average) to impement a solution for an evolution ticket than a defect ticket which seems natural.
+
+We also note that the time is augmenting over the years for both categories which may be a sign of declining quality.
+Finally we note that the closing time over the 15 years was multiplied by 1.5 for evolution tickets and 4 for defect tickets.
+This is an issue to investigate.
 \subsubsection{Time  to test a ticket after development}
 %-------------------------------------------------------------------------------
 
@@ -371,13 +371,17 @@ The testing time is recorded in the ticket database.
   \caption{Time spent by a developer to test his solution for  evolution (up) and defect (down) tickets}
   \label{fig:devTimeTest}
 \end{figure}
-
- \subsubsection{Time estimation}
+igure \ref{fig:devTimeTest} presents the trend of the time spent by a developer to test his solution for evolution (up) and defect (down) tickets.
+We can observe that the time spent for testing evolution tickets is decreasing. 
+This might be because developers lack to test evolution tickets. The lost of quality of the system and the growing number of defects  in the system may also be the reason.
+The time spent to test defects tickets is relativily constant which is ok.
+ 
+\subsubsection{Time estimation}
  %-------------------------------------------------------------------------------
 
 For a ticket, the team manager estimates the time needed to finish the task related to the ticket.
 This estimation is based on the experience of the team manager.  
-We compare the time spent by the developer with the estimation per month over the life cycle of the system.  
+We ploted the difference  between the time spent by the developer and the estimation per month over the life cycle of the system.  
 This is to assess if the developer has enough time to develop good quality source code.
 
 %2 periodes tres claires en quelle annee et du a un effort explicite pour mieux evaluer le temps qui est maintenant fait en interne par la manager.
@@ -385,33 +389,34 @@ This is to assess if the developer has enough time to develop good quality sourc
 %avant on est audessus de 0 donc sous-estimation qui en plus est en croissance
 %apres en dessous donc sur-estimationde pire en pire pour les defauts mais de moins en moins pour les evolutionos avec une moyenne proche de 0
 
-\begin{figure}[H]
+\begin{figure}[htbp]
   \centering
+  \includegraphics[width=70mm]{./images/estimateEvol.png}\\
   \includegraphics[width=70mm]{./images/estimateBug.png}
-  \caption{Actual time spent by the developer minus time estimated by the manager for defect tickets.  The yAxis represent the value of the gap between the development time and the estimated time in hour. The xAxis represent months from 2004 to 2019}
-  \label{fig:devEstDefect}
+  %\caption{Actual time spent by the developer minus time estimated by the manager for evolution tickets. 
+   % The yAxis represent the value of the gap between the development time and the estimated time in hour. 
+    %The xAxis represent months from 2004 to 2019}
+    \caption{Difference between time spent by a developer  and time estimated for  evolution (up) and defect (down) tickets}
+  \label{fig:devEst}
 \end{figure}
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=70mm]{./images/estimateEvol.png}
-  \caption{Actual time spent by the developer minus time estimated by the manager for evolution tickets. 
-    The yAxis represent the value of the gap between the development time and the estimated time in hour. 
-    The xAxis represent months from 2004 to 2019}
-  \label{fig:devEstEvol}
-\end{figure}
+Figure \ref{fig:devEst} shows the trend  the difference between the time spent by the developer and the time estimated for evolution (up) and defect (down) tickets.
+One can notice two obvious periods of time. 
+ A period before may 2013 the time spent by the developer is superior to the time estimated with and increasing variation for evolution and defect tickets . 
+ A period after may 2013  the time estimated is superior to the time spend by the developer ofr evolution and defect tickets.  
+ This estimate  is improving for evolution tickets as the regression line is closing to 0.
+But for defects tickets  the over estimation trend to increase.
 
-\section{Discussion}
-%-------------------------------------------------------------------------------
-\label{sec:results-discussion}
+% \section{Discussion}
+% %-------------------------------------------------------------------------------
+% \label{sec:results-discussion}
 
-\begin{itemize}
-    \item Developers are now using subversion to integrate all their changes in the system. 
-    \item From 2004 to 2019, as we can see in figure \ref{fig:evol} and figure \ref{fig:defect} ,  the time to close a ticket is 5 times the time at 2004 for defects and 1.5 times for evolution.
-    \item Developers spend 4 times the time spent at 2004 for evolution tickets figure \ref{fig:devTimeEvol}, and  3 times for defects tickets figure \ref{fig:devTimeDefect}.
-    \item  Figure \ref{fig:devTimeTestEvol} and \ref{fig:devTimeTestBug} show that the developer spend in average 45 minutes test  the feature implemented of the fixed defect.
-    \item The time estimated by the developers team manager trend to be enough for the developer from 2013 for defects tickets and evolutions tickets.
-\end{itemize}
+% \begin{itemize}
+%     \item From 2004 to 2019, as we can see in figure \ref{fig:evol} and figure \ref{fig:defect} ,  the time to close a ticket is 5 times the time at 2004 for defects and 1.5 times for evolution.
+%     \item Developers spend 4 times the time spent at 2004 for evolution tickets figure \ref{fig:devTimeEvol}, and  3 times for defects tickets figure \ref{fig:devTimeDefect}.
+%     \item  Figure \ref{fig:devTimeTestEvol} and \ref{fig:devTimeTestBug} show that the developer spend in average 45 minutes test  the feature implemented of the fixed defect.
+%     \item The time estimated by the developers team manager trend to be enough for the developer from 2013 for defects tickets and evolutions tickets.
+% \end{itemize}
 
 \section{Summary and Conclusions}
 %-------------------------------------------------------------------------------
