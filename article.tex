@@ -89,7 +89,7 @@ To ensure the future of the system, and through it, of the company itself, some 
 The long period of growth and evolution of the systems as well as staff evolution, lead to problems such as dead code, duplicate code, and obsolete documentation. 
 The developers at the origin of the application are no longer present, so a large part of the knowledge (and this at different levels of granularity) is scattered or lost. 
 
-This is the situation at CIM, a medium French company, which main business product we are studying.
+This is the situation at medium French company, which main business product we are studying.
 The system is written in an old language (PowerBuilder) typically unknown to young programmers which translates in a difficulty to hire new developers.
 There is also a sense in the development team that the system suffers from architecture erosion and is difficult to maintain or evolve which translates into a steep learning curve for new developers.
 We are trying to help this company improve its software engineering practices and restructure the system to improve the situation.
@@ -109,7 +109,7 @@ In lack of a reliable software versioning system, we could not use these solutio
 We mine and analyse the ticket database to overcome our problem.
 This paper presents the results of this work.
 
- This paper is structured as follows: we start with related work in section \ref{sec:related-work}, followed by the section \ref{sec: background} in which we present tickets database mining background. 
+ This paper is structured as follows: we start with related work in section \ref{sec:related-work}, followed by the section \ref{sec:background} in which we present tickets database mining background. 
  In the section \ref{sec:methodology} we present our methodology and conclude in section \ref{sec:conclusion}.
  
 \section{Related Work}
@@ -137,7 +137,7 @@ He reports that $33.8\%$ of the bugs studied among five open-source projects wer
 For this reason, other researchers try to automatically re-classify maintenance activities (e.g. \cite{Mock20a,Levin19a}).
  
 %Other researchers considered ticket database to characterize a system. For instance, \cite{Levin19a} 
-At CIM, maintenance activities classification is more reliable because it drives the entire software evolution process.
+At the company, maintenance activities classification is more reliable because it drives the entire software evolution process.
 We rely on this classification to make our analysis.
 
 We develop a lightweight technique to analyse the ticket database.
@@ -182,16 +182,16 @@ Also, each developer has to write a comment in the source code with his/her name
 % depuis quand ?
 % tres important car utilise dans toute la boite: affectatin du travail, workflow, facturation
 
-At CIM, tickets are stored in the tickets database since 2000.
+At the company, tickets are stored in the tickets database since 2000.
 A ticket represents a unit work.
 The ticket database drives the entire software evolution process: assignment of work to developers, management of the workflow to answer a client request, billing information about each task.
 There are tickets for fixing defects, writing documentation, adding new features, etc. 
 As a consequence, we can rely on a ticket's classification because it is reviewed by the team manager to ensure that it is properly handled.
 
-At CIM, a ticket includes the following characteristics among other things:
+At the company, a ticket includes the following characteristics among other things:
 
 
-At CIM, a ticket includes the following characteristics among other things:
+At the company, a ticket includes the following characteristics among other things:
 
 \begin{itemize}
 \item the creation date
@@ -263,18 +263,33 @@ The ticket database first needed some cleaning:
   
   \item The category of the ticket is fine-grained whereas we are only interested in evolution versus corrective tickets.
   In our analysis, we recategorize the tickets according to some simple dictionary provided by the team manager.
+  \item Duration are registered in the following string format : \emph{//number\_of\_days//number\_of\_hours//number\_of\_minute//}.
+   For example \emph{//1j//2h//00//}  (one day two hours), is the same as \emph{//1 jour//2h//}.
+  Sometimes the format is not respected . For example \emph{5 jours } or \emph{5 g} is registered instead of \emph{//5j//00//00//}.
+  We create a simple  converter which covers all the cases and convert them into duration.
   
 \end{itemize}
  
 For all the time questions, the tickets are grouped by month of creation and their value (for example time to close the ticket) are averaged for the month of creation.  
 We compute the data for our questions as follows:
 \begin{itemize}
+  
   \item We compute the \emph{closing time} of a ticket simply as the time between creation and closing of each (closed) ticket.
-\item %autre metric
+
+  \item  The time spent by the developers to implement its solution for a ticket is provided in the format (\emph{//number\_of\_days//number\_of\_hours//number\_of\_minute//}).
+ We convert this format into duration for each tickets. 
+
+ \item The testing time is recorded in the ticket database in the format (\emph{//number\_of\_days//number\_of\_hours//number\_of\_minute//}).
+  We convert this information in duration.
+
+ \item For a ticket, the team manager estimates the time needed to finish the task related to the ticket.
+ This estimation is based on the experience of the team manager.  
+ We compute the difference  between the time spent by the developer and the estimation per month over the life cycle of the system.  
+ %autre metric
 \end{itemize}
 
-We then plotted the data simply on a 2 dimension graph, but we noticed a very large variation of the results (nonstationary results) than made it challenging to interpret the graphs.
-To get smoother plots, we finally computed the moving average of [month-2; month+2] for each month.
+We then plotted the data simply on a 2 dimension graph, but we noticed a very large variation of the results (nonstationary results) that made it hard to interpret the graphs.
+To get smoother plots, we computed the moving average of [month-2; month+2] on each month.
 Therefore, plotted data for July 2010 of any time metric correspond to the average time of all tickets opened between May 2010 (inclusive) and September 2010 (inclusive).
 
 Finally, to get a better notion of the trend, we will also plot the linear regression of the curve for each graph.
@@ -282,12 +297,13 @@ Finally, to get a better notion of the trend, we will also plot the linear regre
 \subsection{Results}
 %-------------------------------------------------------------------------------
 
-\subsection{Souce code versionning}
+\subsubsection{Souce code versionning}
 %-------------------------------------------------------------------------------
 
-The introduction of SVN only started one month ago and we do not have yet significant results to report here.
+The introduction of SVN only started one month ago and we do not have yet significant results to report. 
 
-For the reconstruction of the summarized source history, we already imported major versions until 2015 in a separated repository. 
+For the reconstruction of the summarized source history, we already imported major versions sorted by release date until 2015 in an SVN repository. 
+At the end of the importing we could analyze changes between release at source code level.
  %We then grouped them by major release. 
  %We create an SVN repository in which we create a branch for each major release. We are pushing each release in the branch  of the major release it belong to.     
 
@@ -325,8 +341,9 @@ This is an issue that we will investigate and monitor in the future.
 \end{figure}
 
 Figure \ref{fig:closingTime} presents the trend of closing time for evolution (up) and defect (down) tickets.
-One can notice a large variation of plotted closing time, even after smoothing it with the moving average.
-It does not seem to be a problem.
+One can notice a large variation of plotted time, even after smoothing it with the moving average. 
+We don't see it as a pointing to a significant problem with the system.
+
 
 It takes longer (on average) to close an evolution ticket than a defect ticket which seems natural.
 
@@ -338,11 +355,9 @@ Again this is an issue to investigate.
 \subsubsection{Developer time spent on a ticket}
 %-------------------------------------------------------------------------------
 
-When a developer work on the task assigns to in a ticket, he spent time to analyze the task. 
+When a developer works on a ticket, he spent time to analyze the task. 
 He then implements a solution and then tests.
- The time spent analyzing and implementing the task assign in a ticket depending on the workload of the ticket, the complexity of the system, etc.  
-We compute the average time spent by developers per month. 
-The data also present rapid up-and-down variation, which we smooth with a simple moving average of period 4. We use linear regression to fit the data.   
+ The time spent analyzing and implementing solution for the ticket depends on the workload of the ticket, the complexity of the system, etc.  
 
 \begin{figure}[htbp]
   \centering
@@ -354,7 +369,7 @@ The data also present rapid up-and-down variation, which we smooth with a simple
 
 %ressemble a closing time
 Figure \ref{fig:devTimeDev} presents the trend of closing time for evolution (up) and defect (down) tickets.
-One can notice a large variation of plotted time spent by the developer, even after smoothing it with the moving average.
+As Figure \ref{fig:closingTime}, Figure \ref{fig:devTimeDev} show a large variation even after smoothing.
 
 It takes longer (on average) to implement a solution for an evolution ticket than a defect ticket which seems natural.
 
@@ -363,10 +378,6 @@ Finally, we note that the closing time over the 15 years was multiplied by 1.5 f
 This is an issue to investigate.
 \subsubsection{Time  to test a ticket after development}
 %-------------------------------------------------------------------------------
-
-Generally, when a developer finishes a development related to a ticket, he tests his solution.  
-The testing time is recorded in the ticket database.
- We use this information to compute the average per month of testing time. 
 
 % constant pour defect -> OK
 % en diminution pour evolution -> peut-etre du a un manque de temps. Peut-etre cause d'une perte de quality et d' une augmentation des bugs
@@ -378,18 +389,15 @@ The testing time is recorded in the ticket database.
   \caption{Time spent by a developer to test his solution for  evolution (up) and defect (down) tickets}
   \label{fig:devTimeTest}
 \end{figure}
+When a developer finishes a development related to a ticket, he tests his solution.  
 Figure \ref{fig:devTimeTest} presents the trend of the time spent by a developer to test his solution for evolution (up) and defect (down) tickets.
 We can observe that the time spent on testing evolution tickets is decreasing. 
-This might be because developers lack to test evolution tickets. The lost of quality of the system and the growing number of defects in the system may also be the reason.
+This might be because developers lack time to  test evolution tickets. 
+The lost of quality of the system and the growing number of defects in the system may be due to lack of tests.
 The time spent to test defects tickets is relatively constant which is ok.
  
 \subsubsection{Time estimation}
  %-------------------------------------------------------------------------------
-
-For a ticket, the team manager estimates the time needed to finish the task related to the ticket.
-This estimation is based on the experience of the team manager.  
-We plotted the difference  between the time spent by the developer and the estimation per month over the life cycle of the system.  
-This is to assess if the developer has enough time to develop good quality source code.
 
 %2 periodes tres claires en quelle annee et du a un effort explicite pour mieux evaluer le temps qui est maintenant fait en interne par la manager.
 
@@ -407,12 +415,15 @@ This is to assess if the developer has enough time to develop good quality sourc
   \label{fig:devEst}
 \end{figure}
 
-Figure \ref{fig:devEst} shows the trend the difference between the time spent by the developer and the time estimated for evolution (up) and defect (down) tickets.
-One can notice two obvious periods. 
- A period before may 2013 the time spent by the developer is superior to the time estimated with and increasing variation for evolution and defect tickets. 
- A period after May 2013 the time estimated is superior to the time spent by the developer for evolution and defect tickets. 
+Figure \ref{fig:devEst} shows the time evolution of the difference between the time spent by the developer and the time estimated for evolution (up) and defect (down) tickets.
+We can observe two obvious periods. 
+ In May 2013 the time spent by the developer is superior to the time estimated with and increasing variation for evolution and defect tickets.
+ This situation means that before May 2013, the developers do not have enough time for a ticket.
+ It might constraint developers to not consider source code quality in the solution they provide for tickets.
+ 
+ A period after May 2013 the time estimated is superior to the time spent for evolution and defect tickets. 
  This estimate is improving for evolution tickets as the regression line is closing to 0.
-But for defects tickets the overestimation trend to increase.
+But for defects tickets, the overestimation tends to increase.
 
 % \section{Discussion}
 % %-------------------------------------------------------------------------------
@@ -431,11 +442,12 @@ But for defects tickets the overestimation trend to increase.
 
 In this paper, we present our first step in improving practices in a french company. We first introduce subversion, a version control system.
 The developers' team is now using it and the software studied source code is now versioned.
-This opens the door for further analysis of the code repository to understand the system evolution. 
-Using the ticket database, the moving average and regression line, we build a defect model mainly assess the developer effort throughout the project life cycle. We will use this model to monitor our future actions which are: how to decompose the system big methods.
+This will open the door for further analysis specifically on the code repository to understand the system evolution. 
+By analysing the ticket database with  moving average and regression line, we  characterize the system.
+ This result will be used to monitor our future actions on the system.
 \bibliographystyle{plainnat}
 %\bibliographystyle{alpha}
-\bibliography{rmod,other,new}
+\bibliography{rmod,new}
 
 \vspace{12pt}
 \end{document}
