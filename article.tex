@@ -89,7 +89,7 @@ To ensure the future of the system, and through it, of the company itself, some 
 The long period of growth and evolution of the system as well as staff evolution, lead to problems such as dead code, duplicate code, and obsolete documentation. 
 The developers at the origin of the application are no longer present, so a large part of the knowledge (and this at different levels of granularity) is scattered or lost. 
 
-This is the situation at medium French company, which main business product we are studying.
+This is the situation at a medium French company, which main business product we are studying.
 The system is written in an old language (PowerBuilder) typically unknown to young programmers which translates in a difficulty to hire new developers.
 There is also a sense in the development team that the system suffers from architecture erosion and is difficult to maintain or evolve which translates into a steep learning curve for new developers.
 We are trying to help this company improve its software engineering practices and restructure the system to improve the situation.
@@ -115,6 +115,7 @@ This paper presents the results of this work.
 \section{Related Work}
 %-------------------------------------------------------------------------------
 \label{sec:related-work}
+
 Recently, research on mining software repositories has received much attention as it attempts to understand software evolution \citep*{Zhan10a}.
 Software defect history and source code history are often used to monitor software maintenance or predict the system's quality. 
 For instance, software defect prediction using software repositories has already been extensively discussed in the literature as witnessed by many literature surveys: \citep*{Catal09,Hall12,Hoss17,Li19a,malh15}.
@@ -190,9 +191,6 @@ As a consequence, we can rely on a ticket's classification because it is reviewe
 
 At the company, a ticket includes the following characteristics among other things:
 
-
-At the company, a ticket includes the following characteristics among other things:
-
 \begin{itemize}
 \item the creation date
 \item the closing date
@@ -200,7 +198,7 @@ At the company, a ticket includes the following characteristics among other thin
 \item time spent by a developer
   \begin{itemize}
   \item time to analyze
-  \item time to implement solution
+  \item time to implement a solution
   \item time to test
   \end{itemize}
   \item the library(ies) impacted
@@ -264,9 +262,9 @@ The ticket database first needed some cleaning:
   \item The category of the ticket is fine-grained whereas we are only interested in evolution versus corrective tickets.
   In our analysis, we recategorized the tickets according to some simple dictionary provided by the team manager.
 
-  \item Duration are registered in a free text format with some conventions.
+  \item Durations are registered in a free text format with some conventions.
   As should be expected, the conventions were not always respected (e.g. ``5d'' or ``5days'') and there were typos.
-  We created a simple  converter which covers all the cases and convert them into numerical values.
+  We created a simple  converter which covers all the cases and converts them into numerical values.
   
 \end{itemize}
  
@@ -306,7 +304,7 @@ We will also plot the linear regression of the curve for each graph to get a bet
 The introduction of SVN only started one month ago and we do not have yet significant results to report. 
 
 For the reconstruction of the summarized source history, we already imported major versions sorted by release date until 2015 in an SVN repository. 
-At the end of the importing we could analyze changes between release at source code level.
+At the end of the importing, we could analyze changes between release at the source code level.
  %We then grouped them by major release. 
  %We create an SVN repository in which we create a branch for each major release. We are pushing each release in the branch  of the major release it belong to.     
 
@@ -345,13 +343,13 @@ This is an issue that we will investigate and monitor in the future.
 
 Figure \ref{fig:closingTime} presents the values of closing time for evolution (up) and defect (down) tickets.
 One can notice a large variation of plotted time, even after smoothing it with the moving average. 
-We don't see it as a pointing to a significant problem with the system.
+We don't see it as  pointing to a significant problem with the system.
 
 
 It takes longer (on average) to close an evolution ticket than a defect ticket which seems natural.
 
 We also note that the time is augmenting over the years for both categories which may be a sign of declining quality.
-Finally we note that the closing time over the 15 years was multiplied by 2 for evolution tickets and 3 for defect tickets.
+Finally, we note that the closing time over the 15 years was multiplied by 2 for evolution tickets and 3 for defect tickets.
 Again this is an issue to investigate.
 
 
@@ -395,8 +393,8 @@ Finally, we note that the time spent by developers to implement a solution was m
 %When a developer finishes a development related to a ticket, he tests his solution.  
 Figure \ref{fig:devTimeTest} presents the trend of the time spent by developers to test their solution for evolution (up) and defect (down) tickets.
 We can observe that the time is decreasing for evolution tickets and stable for defect tickets. 
-This might be due to a pressure to deliver new evolutions. We will come back to this in the next section.
-It is possible that this declining testing time results in a loss of quality of the system that could explain the results shown in the previous sections.
+This might be due to the pressure to deliver new evolutions. We will come back to this in the next section.
+This declining testing time may result in a loss of quality of the system that could explain the results shown in the previous sections.
  
 \subsection{Time estimation}
  %-------------------------------------------------------------------------------
@@ -427,7 +425,7 @@ After May 2013 the time estimated is superior to the time spent for evolution an
 This estimate is improving for evolution tickets as the regression line is closing to 0.
 For defects tickets, the overestimation tends to increase.
 We could relate this to diminishing testing time (Section \ref{sec:testingTime}) for evolution ticket (that could be due to a lack of time) whereas the testing time remains constant for defect tickets which still enjoy a clear over-estimation.
-However, it must be noted that we did not see the same two periods difference in the previous section, therefore it is not clear that under-estimation of the time is at the source of the diminuing testing time.
+However, it must be noted that we did not see the same two periods difference in the previous section, therefore it is not clear that under-estimation of the time is at the source of the diminishing testing time.
 
 % \section{Discussion}
 % %-------------------------------------------------------------------------------
@@ -444,14 +442,13 @@ However, it must be noted that we did not see the same two periods difference in
 %-------------------------------------------------------------------------------
 \label{sec:conclusion}
 
-In this paper, we present our first steps in improving practices in a medium company. We first introduced  a version control system in the evolution process.
-We chose Subversion as it seemed simpler to present to developpers that had no previous knowledge of versionning.
-The developement team is now using it and source code is now versioned.
+In this paper, we present our first steps in improving practices in a medium company. We first introduced a version control system in the evolution process.
+We chose Subversion as it seemed simpler to present to developers that had no previous knowledge of versioning.
+The development team is now using it and the source code is now versioned.
 This will open the door for further analyses specifically on the code repository to understand the system evolution. 
 
-As we want to monitor our future actions on the system, we analysed the ticket database to  characterize the current situation.
-The results seem to point to a declining quality of the system (it takes longer to implements tickets), but we also noted an imrovement in the estimation of the workload of a ticket.
-
+As we want to monitor our future actions on the system, we analysed the ticket database to characterize the current situation.
+The results seem to point to the declining quality of the system (it takes longer to implements tickets), but we also noted an improvement in the estimation of the workload of a ticket.
 \bibliographystyle{plainnat}
 %\bibliographystyle{alpha}
 \bibliography{rmod,new}
