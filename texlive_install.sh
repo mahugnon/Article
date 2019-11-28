@@ -17,7 +17,8 @@ if ! command -v texlua > /dev/null; then
 
   # Install a minimal system
   ./install-tl --profile=../texlive/texlive.profile
-
+  sudo apt-get install texlive-fonts-recommended
+  
   cd ..
 fi
 
