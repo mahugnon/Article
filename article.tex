@@ -16,7 +16,7 @@
 \usepackage{colortbl}
 \usepackage{blindtext}
 \usepackage{float}
-\usepackage[font=scriptsize]{caption}
+%\usepackage[font=scriptsize]{caption}
 \usepackage[sort&compress,square,comma,authoryear]{natbib}
 %\newcommand{\sd}[1]{\textbf{"\textsc{SD:}} \textit{#1}"}
 
@@ -86,7 +86,7 @@ As a result, they often develop features in a hurry.
 As the system grows, it becomes harder and harder to maintain.
 %Rewriting this software require time and a lot of resources.
 To ensure the future of the system, and through it, of the company itself, some re-engineering actions might be necessary.
-The long period of growth and evolution of the systems as well as staff evolution, lead to problems such as dead code, duplicate code, and obsolete documentation. 
+The long period of growth and evolution of the system as well as staff evolution, lead to problems such as dead code, duplicate code, and obsolete documentation. 
 The developers at the origin of the application are no longer present, so a large part of the knowledge (and this at different levels of granularity) is scattered or lost. 
 
 This is the situation at medium French company, which main business product we are studying.
@@ -102,7 +102,7 @@ How to validate our intervention and can we measure its concrete impact on the s
 For the reasons explained above, we cannot completely rely on current developers knowledge of the system.
 The only usable information about the system is its non-versioned source code and a ticket database.
 Past literature often relied on historical data on the source code, for example
-cyclomatic complexity \cite{gill91}, or number of lines of code \cite{port18}.
+cyclomatic complexity \citep*{gill91}, or number of lines of code \citep*{port18}.
 In lack of a reliable software versioning system, we could not use these solutions.
 
 
@@ -115,28 +115,28 @@ This paper presents the results of this work.
 \section{Related Work}
 %-------------------------------------------------------------------------------
 \label{sec:related-work}
-Recently, research on mining software repositories has received much attention as it attempts to understand software evolution \cite{Zhan10a}.
+Recently, research on mining software repositories has received much attention as it attempts to understand software evolution \citep*{Zhan10a}.
 Software defect history and source code history are often used to monitor software maintenance or predict the system's quality. 
-For instance, software defect prediction using software repositories has already been extensively discussed in the literature as witnessed by many literature surveys: \cite{Catal09,Hall12,Hoss17,Li19a,malh15}.
+For instance, software defect prediction using software repositories has already been extensively discussed in the literature as witnessed by many literature surveys: \citep*{Catal09,Hall12,Hoss17,Li19a,malh15}.
 %"intro": de quoi on va parler et pourquoi en parler ?
 
 %A software defect is a mistake at coding level, which manifests in a deviation from expected behavior. 
 %Mining a software defect history helps to collect valuable information about the software life evolution. 
-%Software re-engineering monitoring should be supported by prediction models that predict the quality under control (\cite{Lenar17}). 
+%Software re-engineering monitoring should be supported by prediction models that predict the quality under control (\citep*{Lenar17}). 
 
 %Software defect history can be used alone to build a software defect model using statistical techniques or machine learning algorithms to predict post-release defects in software.
 But these solutions rely on the availability of source code history. 
-For example, \cite{gill91} used McCabe’s cyclomatic complexity metric divided by the size of the system to predict software maintenance productivity.
-\cite{port18,Zhan10a} used software defect history and source code history to assess a system evolution to monitor maintenance. 
+For example, \citep*{gill91} used McCabe’s cyclomatic complexity metric divided by the size of the system to predict software maintenance productivity.
+\citep*{port18,Zhan10a} used software defect history and source code history to assess a system evolution to monitor maintenance. 
 
 In our case, the source code history is not easily available as the company does not make use of a version control system.
 Thus, we cannot use the methods presented above.
 
-\cite{Herz13a} propose to consider ticket database.
+\citep*{Herz13a} propose to consider ticket database.
 He reports that $33.8\%$ of the bugs studied among five open-source projects were misclassified.
-For this reason, other researchers try to automatically re-classify maintenance activities (e.g. \cite{Mock20a,Levin19a}).
+For this reason, other researchers try to automatically re-classify maintenance activities (e.g. \citep*{Mock20a,Levin19a}).
  
-%Other researchers considered ticket database to characterize a system. For instance, \cite{Levin19a} 
+%Other researchers considered ticket database to characterize a system. For instance, \citep*{Levin19a} 
 At the company, maintenance activities classification is more reliable because it drives the entire software evolution process.
 We rely on this classification to make our analysis.
 
@@ -262,42 +262,45 @@ The ticket database first needed some cleaning:
   We identified all the errors manually and corrected them.
   
   \item The category of the ticket is fine-grained whereas we are only interested in evolution versus corrective tickets.
-  In our analysis, we recategorize the tickets according to some simple dictionary provided by the team manager.
-  \item Duration are registered in the following string format : \emph{//number\_of\_days//number\_of\_hours//number\_of\_minute//}.
-   For example \emph{//1j//2h//00//}  (one day two hours), is the same as \emph{//1 jour//2h//}.
-  Sometimes the format is not respected . For example \emph{5 jours } or \emph{5 g} is registered instead of \emph{//5j//00//00//}.
-  We create a simple  converter which covers all the cases and convert them into duration.
+  In our analysis, we recategorized the tickets according to some simple dictionary provided by the team manager.
+
+  \item Duration are registered in a free text format with some conventions.
+  As should be expected, the conventions were not always respected (e.g. ``5d'' or ``5days'') and there were typos.
+  We created a simple  converter which covers all the cases and convert them into numerical values.
   
 \end{itemize}
  
-For all the time questions, the tickets are grouped by month of creation and their value (for example time to close the ticket) are averaged for the month of creation.  
+For all the questions on time (for example time to close the tickets), the tickets are grouped by month of creation and their value are averaged for the month of creation.  
 We compute the data for our questions as follows:
 \begin{itemize}
   
-  \item We compute the \emph{closing time} of a ticket simply as the time between creation and closing of each (closed) ticket.
+  \item We compute the \emph{closing time} of a ticket simply as the time between creation and closing.
+  This is only computed for closed tickets, the other ones are ignored.
 
-  \item  The time spent by the developers to implement its solution for a ticket is provided in the format (\emph{//number\_of\_days//number\_of\_hours//number\_of\_minute//}).
- We convert this format into duration for each tickets. 
+  \item  The time spent by the developers to implement the solution for a ticket is recorded in a ``Time'' table related to the ticket.
+  We sum all ``Time'' rows linked to the ticket that are marked as development.
 
- \item The testing time is recorded in the ticket database in the format (\emph{//number\_of\_days//number\_of\_hours//number\_of\_minute//}).
-  We convert this information in duration.
+ \item The time spent by the developers to implement the solution for a ticket is recorded in a ``Time'' table, we sum all ``Time'' rows linked to the ticket that are marked as testing
 
- \item For a ticket, the team manager estimates the time needed to finish the task related to the ticket.
- This estimation is based on the experience of the team manager.  
- We compute the difference  between the time spent by the developer and the estimation per month over the life cycle of the system.  
+ \item In the ticket there is a field recording the estimated time to solve it.
+ This field is filled by the team manager.
+ There is also a field recording the total time spent on the ticket by the developer.
+ We compute the difference  between the total time spent and the estimated time.
+ If this difference is positive, there was under estimation, and if it is negative there was over estimation.
  %autre metric
 \end{itemize}
 
-We then plotted the data simply on a 2 dimension graph, but we noticed a very large variation of the results (nonstationary results) that made it hard to interpret the graphs.
-To get smoother plots, we computed the moving average of [month-2; month+2] on each month.
-Therefore, plotted data for July 2010 of any time metric correspond to the average time of all tickets opened between May 2010 (inclusive) and September 2010 (inclusive).
+We finally plotted the data on a 2 dimension graph.
+We noticed a very large variation of the results from month to month (nonstationary results).
+This made it hard to interpret the graphs.
+To get smoother plots, we computed the moving average of [month - 2; month + 2] for each month.
+So for example, plotted data for July 2010 corresponds to the average time of all tickets opened between May 2010 (inclusive) and September 2010 (inclusive).
+We will also plot the linear regression of the curve for each graph to get a better notion of the trend.
 
-Finally, to get a better notion of the trend, we will also plot the linear regression of the curve for each graph.
-
-\subsection{Results}
+\section{Results}
 %-------------------------------------------------------------------------------
 
-\subsubsection{Souce code versionning}
+\subsection{Souce code versionning}
 %-------------------------------------------------------------------------------
 
 The introduction of SVN only started one month ago and we do not have yet significant results to report. 
@@ -307,7 +310,7 @@ At the end of the importing we could analyze changes between release at source c
  %We then grouped them by major release. 
  %We create an SVN repository in which we create a branch for each major release. We are pushing each release in the branch  of the major release it belong to.     
 
-\subsubsection{Data collection}
+\subsection{Data collection}
 %-------------------------------------------------------------------------------
 
 \begin{table}[htbp]
@@ -326,10 +329,10 @@ At the end of the importing we could analyze changes between release at source c
 
 Table \ref{tab:proportion} gives the number of defect versus evolution tickets.
 We note that 56\% of defect tickets seems a high proportion.
-Literature (e.g. \cite{Pigo96a} ) states that the proportion is typically 20\% to 25\% of defect tickets.
+Literature (e.g. \citep*{Pigo96a} ) states that the proportion is typically 20\% to 25\% of defect tickets.
 This is an issue that we will investigate and monitor in the future.
 
-\subsubsection{Time to close a ticket}
+\subsection{Time to close a ticket}
 %-------------------------------------------------------------------------------
 
 \begin{figure}[htbp]
@@ -340,7 +343,7 @@ This is an issue that we will investigate and monitor in the future.
   \label{fig:closingTime}
 \end{figure}
 
-Figure \ref{fig:closingTime} presents the trend of closing time for evolution (up) and defect (down) tickets.
+Figure \ref{fig:closingTime} presents the values of closing time for evolution (up) and defect (down) tickets.
 One can notice a large variation of plotted time, even after smoothing it with the moving average. 
 We don't see it as a pointing to a significant problem with the system.
 
@@ -352,33 +355,32 @@ Finally we note that the closing time over the 15 years was multiplied by 2 for 
 Again this is an issue to investigate.
 
 
-\subsubsection{Developer time spent on a ticket}
+\subsection{Developement time spent on a ticket}
 %-------------------------------------------------------------------------------
 
-When a developer works on a ticket, he spent time to analyze the task. 
-He then implements a solution and then tests.
- The time spent analyzing and implementing solution for the ticket depends on the workload of the ticket, the complexity of the system, etc.  
+%The time spent analyzing and implementing solution for the ticket depends on the workload of the ticket, the complexity of the system, etc.  
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=70mm]{./images/devEvol.png}\\
   \includegraphics[width=70mm]{./images/devDefect.png}
-  \caption{Time spent by a developer to implement his solution for  evolution (up) and defect (down) tickets}
+  \caption{Time spent by developers to implement his solution for  evolution (up) and defect (down) tickets}
   \label{fig:devTimeDev}
 \end{figure}
 
 %ressemble a closing time
-Figure \ref{fig:devTimeDev} presents the trend of closing time for evolution (up) and defect (down) tickets.
-As Figure \ref{fig:closingTime}, Figure \ref{fig:devTimeDev} show a large variation even after smoothing.
+Figure \ref{fig:devTimeDev} presents the time spent by developers to implement a solution to evolution (up) and defect (down) tickets.
+As Figure \ref{fig:closingTime}, Figure \ref{fig:devTimeDev} shows a large variation even after smoothing.
 
-It takes longer (on average) to implement a solution for an evolution ticket than a defect ticket which seems natural.
+It takes longer (on average) to implement a solution for an evolution ticket than a defect ticket. This seems natural.
 
 We also note that the time is augmenting over the years for both categories which may be a sign of declining quality.
-Finally, we note that the closing time over the 15 years was multiplied by 1.5 for evolution tickets and 4 for defect tickets.
-This is an issue to investigate.
-\subsubsection{Time  to test a ticket after development}
-%-------------------------------------------------------------------------------
+Finally, we note that the time spent by developers to implement a solution was multiplied by a similar factor for evolution and defects (about 8 or 10).
 
+
+\subsection{Testing time by the developper}
+%-------------------------------------------------------------------------------
+\label{sec:testingTime}
 % constant pour defect -> OK
 % en diminution pour evolution -> peut-etre du a un manque de temps. Peut-etre cause d'une perte de quality et d' une augmentation des bugs
 
@@ -389,17 +391,17 @@ This is an issue to investigate.
   \caption{Time spent by a developer to test his solution for  evolution (up) and defect (down) tickets}
   \label{fig:devTimeTest}
 \end{figure}
-When a developer finishes a development related to a ticket, he tests his solution.  
-Figure \ref{fig:devTimeTest} presents the trend of the time spent by a developer to test his solution for evolution (up) and defect (down) tickets.
-We can observe that the time spent on testing evolution tickets is decreasing. 
-This might be because developers lack time to  test evolution tickets. 
-The lost of quality of the system and the growing number of defects in the system may be due to lack of tests.
-The time spent to test defects tickets is relatively constant which is ok.
+
+%When a developer finishes a development related to a ticket, he tests his solution.  
+Figure \ref{fig:devTimeTest} presents the trend of the time spent by developers to test their solution for evolution (up) and defect (down) tickets.
+We can observe that the time is decreasing for evolution tickets and stable for defect tickets. 
+This might be due to a pressure to deliver new evolutions. We will come back to this in the next section.
+It is possible that this declining testing time results in a loss of quality of the system that could explain the results shown in the previous sections.
  
-\subsubsection{Time estimation}
+\subsection{Time estimation}
  %-------------------------------------------------------------------------------
 
-%2 periodes tres claires en quelle annee et du a un effort explicite pour mieux evaluer le temps qui est maintenant fait en interne par la manager.
+%2 periodes tres claires en quelle annee et du a un effort explicitep* pour mieux evaluer le temps qui est maintenant fait en interne par la manager.
 
 %avant on est audessus de 0 donc sous-estimation qui en plus est en croissance
 %apres en dessous donc sur-estimationde pire en pire pour les defauts mais de moins en moins pour les evolutionos avec une moyenne proche de 0
@@ -411,19 +413,21 @@ The time spent to test defects tickets is relatively constant which is ok.
   %\caption{Actual time spent by the developer minus time estimated by the manager for evolution tickets. 
    % The yAxis represent the value of the gap between the development time and the estimated time in hour. 
     %The xAxis represent months from 2004 to 2019}
-    \caption{Difference between time spent by a developer  and time estimated for  evolution (up) and defect (down) tickets}
+    \caption{Difference between time spent by  developers and time estimated for  evolution (up) and defect (down) tickets}
   \label{fig:devEst}
 \end{figure}
 
-Figure \ref{fig:devEst} shows the time evolution of the difference between the time spent by the developer and the time estimated for evolution (up) and defect (down) tickets.
-We can observe two obvious periods. 
- In May 2013 the time spent by the developer is superior to the time estimated with and increasing variation for evolution and defect tickets.
- This situation means that before May 2013, the developers do not have enough time for a ticket.
- It might constraint developers to not consider source code quality in the solution they provide for tickets.
+Figure \ref{fig:devEst} shows the  difference between the time spent by the developer and the time estimated for evolution (up) and defect (down) tickets.
+We can observe two obvious periods: before and after May 2013. 
+Before May 2013 the time spent by the developer is superior to the time estimated with and increasing difference for both evolution and defect tickets.
+This means that the developers did not have enough time to solve the tickets.
+It constrained developers in their task which might have impacted negatively the quality of the solutions and therefore of the code.
  
- A period after May 2013 the time estimated is superior to the time spent for evolution and defect tickets. 
- This estimate is improving for evolution tickets as the regression line is closing to 0.
-But for defects tickets, the overestimation tends to increase.
+After May 2013 the time estimated is superior to the time spent for evolution and defect tickets. 
+This estimate is improving for evolution tickets as the regression line is closing to 0.
+For defects tickets, the overestimation tends to increase.
+We could relate this to diminishing testing time (Section \ref{sec:testingTime}) for evolution ticket (that could be due to a lack of time) whereas the testing time remains constant for defect tickets which still enjoy a clear over-estimation.
+However, it must be noted that we did not see the same two periods difference in the previous section, therefore it is not clear that under-estimation of the time is at the source of the diminuing testing time.
 
 % \section{Discussion}
 % %-------------------------------------------------------------------------------
@@ -440,11 +444,14 @@ But for defects tickets, the overestimation tends to increase.
 %-------------------------------------------------------------------------------
 \label{sec:conclusion}
 
-In this paper, we present our first step in improving practices in a french company. We first introduce subversion, a version control system.
-The developers' team is now using it and the software studied source code is now versioned.
-This will open the door for further analysis specifically on the code repository to understand the system evolution. 
-By analysing the ticket database with  moving average and regression line, we  characterize the system.
- This result will be used to monitor our future actions on the system.
+In this paper, we present our first steps in improving practices in a medium company. We first introduced  a version control system in the evolution process.
+We chose Subversion as it seemed simpler to present to developpers that had no previous knowledge of versionning.
+The developement team is now using it and source code is now versioned.
+This will open the door for further analyses specifically on the code repository to understand the system evolution. 
+
+As we want to monitor our future actions on the system, we analysed the ticket database to  characterize the current situation.
+The results seem to point to a declining quality of the system (it takes longer to implements tickets), but we also noted an imrovement in the estimation of the workload of a ticket.
+
 \bibliographystyle{plainnat}
 %\bibliographystyle{alpha}
 \bibliography{rmod,new}
